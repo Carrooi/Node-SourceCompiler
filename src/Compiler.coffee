@@ -16,6 +16,7 @@ class Compiler
 	@minifiers:
 		coffee: 'uglify'
 		json: 'uglify'
+		js: 'uglify'
 		ts: 'uglify'
 		less: 'cleanCss'
 		scss: 'cleanCss'
@@ -86,11 +87,13 @@ class Compiler
 
 			return deferred.promise
 
-		json: (data, options) =>
+		json: (data, options) ->
 			deferred = Q.defer()
 			deferred.resolve("(function() {\nreturn #{data}\n}).call(this);\n")
 			return deferred.promise
 
+		js: (data, options) ->
+			return Q.resolve(data)
 
 		ts: (data, options) =>
 			if options.path == null
@@ -229,6 +232,9 @@ class Compiler
 			return err
 
 		json: (err, path = null) ->
+			return err
+
+		js: (err, path = null) ->
 			return err
 
 		ts: (err, path = null) ->

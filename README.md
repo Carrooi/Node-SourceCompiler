@@ -12,6 +12,7 @@ Changelog is in the bottom of this readme
 
 ### Javascript
 
+* js (plain javascript)
 * coffee-script ([link](https://npmjs.org/package/coffee-script))
 * json (wrap automatically into annonymouse function)
 * typescript ([link](https://npmjs.org/package/typescript))
@@ -110,6 +111,9 @@ Compiler.compile('scss', '{',).fail(function(err) {
 ```
 
 ## Changelog
+
+* 1.1.1
+	+ Added support for plain javascript
 
 * 1.1.0
 	+ Inceresed timeout for tests (because of typescript)
