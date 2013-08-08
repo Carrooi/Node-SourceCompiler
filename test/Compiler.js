@@ -13,7 +13,8 @@
 			ts: fs.readFileSync(dir + '/ts/simple.ts', {encoding: 'utf-8'}),
 			less: fs.readFileSync(dir + '/less/simple.less', {encoding: 'utf-8'}),
 			scss: fs.readFileSync(dir + '/scss/simple.scss', {encoding: 'utf-8'}),
-			styl: fs.readFileSync(dir + '/styl/simple.styl', {encoding: 'utf-8'})
+			styl: fs.readFileSync(dir + '/styl/simple.styl', {encoding: 'utf-8'}),
+			eco: fs.readFileSync(dir + '/eco/simple.eco', {encoding: 'utf-8'})
 		},
 		error: {
 			coffee: fs.readFileSync(dir + '/coffee/error.coffee', {encoding: 'utf-8'}),
@@ -34,7 +35,12 @@
 			ts: "var message = 'hello';\r\n",
 			less: 'body {\n  color: #ff0000;\n}\n',
 			scss: 'body {\n  color: red; }\n',
-			styl: 'body {\n  color: #f00;\n}\n'
+			styl: 'body {\n  color: #f00;\n}\n',
+			eco: {
+				simple: '<span>hello</span>\n<span>Bye</span>',
+				jquerify: "(function() {\n$('<span>hello</span>' +\n'<span>Bye</span>');\n}).call(this);",
+				jquerifyMinify: '!function(){$("<span>hello</span><span>Bye</span>")}.call(this);'
+			}
 		},
 		minified: {
 			css: 'body{color:red}',
@@ -296,21 +302,21 @@
 			 * CSS FILES WITH IMPORTS BUT WITHOUT PATH DEFINED
 			 */
 
-			it('should return error if in less file are imports and path is not defined', function(done) {
+			it('should return error if in less are imports and path is not defined', function(done) {
 				Compiler.compile('less', files.imports.less).fail(function(err) {
 					err.should.be.an.instanceOf(Error);
 					done();
 				}).done();
 			});
 
-			it('should return error if in scss file are imports and path is not defined', function(done) {
+			it('should return error if in scss are imports and path is not defined', function(done) {
 				Compiler.compile('scss', files.imports.scss).fail(function(err) {
 					err.should.be.an.instanceOf(Error);
 					done();
 				}).done();
 			});
 
-			it('should return error if in styl file are imports and path is not defined', function(done) {
+			it('should return error if in styl are imports and path is not defined', function(done) {
 				Compiler.compile('styl', files.imports.styl).fail(function(err) {
 					err.should.be.an.instanceOf(Error);
 					done();
@@ -363,6 +369,63 @@
 			it('should return compiled styl file from compileFile method', function(done) {
 				Compiler.compileFile(dir + '/styl/simple.styl').then(function(data) {
 					data.should.be.equal(files.results.styl);
+					done();
+				}).done();
+			});
+
+			/********************************* OTHER ********************************/
+
+			/**
+			 * SIMPLE OTHER FILES
+			 */
+
+			it('should return compiled eco file', function(done) {
+				Compiler.compile('eco', files.simple.eco, {data: {message: 'hello'}}).then(function(data) {
+					data.should.be.equal(files.results.eco.simple);
+					done();
+				}).done();
+			});
+
+			/**
+			 * JQUERIFY RESULT
+			 */
+
+			it('should return compiled and jquerified eco file', function(done) {
+				Compiler.compile('eco', files.simple.eco, {jquerify: true, data: {message: 'hello'}}).then(function(data) {
+					data.should.be.equal(files.results.eco.jquerify);
+					done();
+				}).done();
+			});
+
+			/**
+			 * MINIFY JQUERIFY RESULT
+			 */
+
+			it('should return compiled, minified and jquerified eco file', function(done) {
+				Compiler.compile('eco', files.simple.eco, {jquerify: true, minify: true, data: {message: 'hello'}}).then(function(data) {
+					data.should.be.equal(files.results.eco.jquerifyMinify);
+					done();
+				}).done();
+			});
+
+			/**
+			 * MINIFY PRECOMPILED RESULT - ERROR
+			 */
+
+			it('should return error if you try to minify precompiled eco file', function(done) {
+				Compiler.compile('eco', files.simple.eco, {precompile: true, minify: true}).fail(function(err) {
+					err.should.be.an.instanceOf(Error);
+					done();
+				}).done();
+			});
+
+			/**
+			 * MINIFY HTML TEMPLATE - ERROR
+			 */
+
+			it('should return error if you try to minify clean template', function(done) {
+				Compiler.compile('eco', files.simple.eco, {minify: true, data: {message: 'hello'}}).fail(function(err) {
+					err.should.be.an.instanceOf(Error);
 					done();
 				}).done();
 			});

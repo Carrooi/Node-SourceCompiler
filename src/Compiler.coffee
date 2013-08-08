@@ -5,6 +5,7 @@ coffee = require 'coffee-script'
 less = require 'less'
 stylus = require 'stylus'
 sass = require 'node-sass'
+eco = require 'eco'
 uglify = require 'uglify-js'
 cleanCss = require 'clean-css'
 exec = require('child_process').exec
@@ -19,6 +20,7 @@ class Compiler
 		less: 'cleanCss'
 		scss: 'cleanCss'
 		styl: 'cleanCss'
+		eco: 'uglify'
 
 
 	@isSupported: (type) ->
@@ -49,12 +51,17 @@ class Compiler
 		if typeof options.path == 'undefined' then options.path = null
 		if typeof options.minify == 'undefined' then options.minify = false
 		if typeof options.debug == 'undefined' then options.debug = false
+		if typeof options.precompile == 'undefined' then options.precompile = false
+		if typeof options.jquerify == 'undefined' then options.jquerify = false
+		if typeof options.data == 'undefined' then options.data = {}
 
 		if !@isSupported(type)
 			return Q.reject(new Error "Type '#{type}' is not supported")
 
 		deferred = Q.defer()
 		@_compilers[type](data, options).then( (data) =>
+			if type == 'eco' && options.minify == true && options.precompile == true
+				console.log data
 			if options.minify then data = @_minify[@minifiers[type]](data)
 			deferred.resolve(data)
 		, (err) ->
@@ -169,6 +176,47 @@ class Compiler
 			)
 
 			return deferred.promise
+
+		eco: (data, options) =>
+			if options.minify == true && options.jquerify == true
+
+			else if options.minify == true
+				return Q.reject(new Error 'Minifing eco templates is not implemented')
+
+			if options.precompile == true
+				data = eco.precompile(data)
+				if options.jquerify == true
+					data = @_jquerify.precompiled(data)
+			else
+				data = eco.render(data, options.data)
+				if options.jquerify == true
+					data = @_jquerify.compiled(data)
+
+			return Q.resolve(data)
+
+
+	@_jquerify:
+		precompiled: (data) ->
+			return """
+				   function (values, data) {
+					   var $ = jQuery, result = $();
+					   values = $.makeArray(values);
+					   data = data || {};
+					   for (var i=0; i < values.length; i++) {
+						   var value = $.extend({}, values[i], data, {index: i});
+						   var elem  = $((#{data})(value));
+						   elem.data('item', value);
+						   $.merge(result, elem);
+					   }
+					   return result;
+				   };
+				   """
+
+		compiled: (data) ->
+			data = data.replace(/\'/g, "\\'")
+			data = data.replace(/\n/g, "' +\n'")
+			data = data.replace(/[\s\+]+$/, '')
+			return "(function() {\n$('#{data}');\n}).call(this);"
 
 
 	@_minify:

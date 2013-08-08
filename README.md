@@ -22,6 +22,10 @@ Changelog is in the bottom of this readme
 * sass (scss, [link](https://npmjs.org/package/node-sass))
 * stylus ([link](https://npmjs.org/package/stylus))
 
+### Templates
+
+* eco ([link](https://github.com/sstephenson/eco))
+
 ## Usage
 
 Bellow is example of already loaded less style compiled into css (OK, there is nothing to compile ;-) )
@@ -58,6 +62,9 @@ compiler needs to use some workarounds because of this.
 * minify: boolean option, if it is true, then result file will be compressed
 	+ css styles: ([clean-css](https://npmjs.org/package/clean-css))
 	+ js: ([uglify-js](https://npmjs.org/package/uglify-js))
+* precompile: some frameworks can just prepare your code for another usage without framework itself (eg. in browser). This options is for templates
+* jquerify: this option is also for templates and it wrap automatically result template into jQuery function
+* data: again for templates. This is an object with your variables passed to templates
 
 ```
 Compiler.compile('less', 'body { color: red; }', {
@@ -67,6 +74,10 @@ Compiler.compile('less', 'body { color: red; }', {
 	console.log(result);		// output: body {\n  color: red;\n}\n
 });
 ```
+
+## ECO templates
+
+Unfortenatelly now minifiing is supported only for jquerified templates.
 
 ## Parsing files
 
@@ -99,6 +110,13 @@ Compiler.compile('scss', '{',).fail(function(err) {
 ```
 
 ## Changelog
+
+* 1.1.0
+	+ Inceresed timeout for tests (because of typescript)
+	+ Another test reporter
+	+ Support for ECO templates
+	+ jquerifing templates
+	+ precompile templates
 
 * 1.0.0
 	+ Initial version
