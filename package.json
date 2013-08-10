@@ -1,7 +1,7 @@
 {
 	"name": "source-compiler",
 	"description": "Compile javascript transcompilers and css frameworks with one API",
-	"version": "1.2.0",
+	"version": "1.3.0",
 	"author": {
 		"name": "David Kudera",
 		"email": "sakren@gmail.com"

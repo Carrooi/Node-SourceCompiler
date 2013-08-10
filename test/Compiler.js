@@ -189,6 +189,13 @@
 				}).done();
 			});
 
+			it('should return compiled coffee file from remote repository', function(done) {
+				Compiler.compileFile('https://raw.github.com/sakren/node-source-compiler/master/test/data/coffee/simple.coffee').then(function(data) {
+					data.should.be.equal(files.results.coffee);
+					done();
+				}).done();
+			});
+
 			/********************************* CSS FILES *********************************/
 
 			/**

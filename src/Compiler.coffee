@@ -12,6 +12,8 @@ exec = require('child_process').exec
 Cache = require 'cache-storage'
 FileStorage = require 'cache-storage/Storage/FileStorage'
 Finder = require 'fs-finder'
+http = require 'http'
+https = require 'https'
 
 class Compiler
 
@@ -45,31 +47,51 @@ class Compiler
 		return typeof @_compilers[type] != 'undefined'
 
 
+	@isRemote: (_path) ->
+		return _path.match(/^https?\:\/\//) != null
+
+
 	@getType: (_path) ->
 		return path.extname(_path).replace(/^\./, '')
 
 
 	@loadFile: (type, _path, options) ->
 		deferred = Q.defer()
-		fs.readFile(_path, encoding: 'utf-8', (err, data) =>
-			if err
-				deferred.reject(err)
-			else
-				@compile(type, data, options).then( (data) ->
-					deferred.resolve(data)
+		if @isRemote(_path)
+			protocol = if _path.match(/^https/) then https else http
+			protocol.get(_path, (res) =>
+				data = ''
+				res.setEncoding('utf-8')
+				res.on('data', (chunk) ->
+					data += chunk
 				)
-		)
+				res.on('end', =>
+					@compile(type, data, options).then( (data) ->
+						deferred.resolve(data)
+					)
+				)
+			).on('error', (e) ->
+				deferred.reject(new Error e)
+			)
+		else
+			fs.readFile(_path, encoding: 'utf-8', (err, data) =>
+				if err
+					deferred.reject(err)
+				else
+					@compile(type, data, options).then( (data) ->
+						deferred.resolve(data)
+					)
+			)
 		return deferred.promise
 
 
 	@compileFile: (_path, options = {}) ->
-		_path = path.resolve(_path)
+		if !@isRemote(_path) then _path = path.resolve(_path)
 		type = @getType(_path)
-		options.path = _path
+		if !@isRemote(_path) then options.path = _path
 		deferred = Q.defer()
 
-		if @cache == null || type in @cachableWithDeps && typeof options.dependents == 'undefined'
-			options.dependents = @_parseDependents([_path])
+		if @cache == null || type in @cachableWithDeps && typeof options.dependents == 'undefined' || @isRemote(_path)
 			@loadFile(type, _path, options).then( (data) ->
 				deferred.resolve(data)
 			, (err) ->

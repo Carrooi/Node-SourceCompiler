@@ -91,6 +91,16 @@ Compiler.compileFile('/var/path/to/the/original/file.less', {minify: true}).then
 });
 ```
 
+## Remote files
+
+You can also load remote files using HTTP or HTTPS protocol.
+
+```
+Compiler.compileFile('http://my.website.com/some_file.coffee').then(function(result) {
+	console.log(result);
+});
+```
+
 ## Handling errors
 
 All error messages should be parsed into one type, so you can easilly work with them. Errors are [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) instances.
@@ -116,7 +126,7 @@ Compiler.compile('scss', '{',).fail(function(err) {
 You can turn on cache, so when files are not changed, they will be loaded from cache. Source compiler uses [cache-storage](https://npmjs.org/package/cache-storage)
 module.
 
-Caching works only for compileFile method.
+Caching works only for compileFile method and for files which are not loaded from remote host.
 
 ```
 Compiler.setCache('/path/to/cache/directory');
@@ -153,6 +163,9 @@ Compiler.compileFile('/var/path/to/the/original/file.less', {dependents: ['/var/
 ```
 
 ## Changelog
+
+* 1.3.0
+	+ Support for remote (HTTP/HTTPS) files
 
 * 1.2.0
 	+ Added support for caching files
