@@ -103,7 +103,7 @@
 				}).done();
 			});
 
-			it.skip('should return compiled ts file', function(done) {		// Path must be defined
+			it('should return compiled ts file', function(done) {		// Path must be defined
 				Compiler.compile('ts', files.simple.ts, {path: dir + '/ts/simple.ts'}).then(function(data) {
 					data.should.be.equal(files.results.ts);
 					done();
@@ -157,7 +157,7 @@
 				}).done();
 			});
 
-			it.skip('should return minified ts file', function(done) {
+			it('should return minified ts file', function(done) {
 				Compiler.compile('ts', files.simple.ts, {path: dir + '/ts/simple.ts', minify: true}).then(function(data) {
 					data.should.be.equal(files.minified.ts);
 					done();
@@ -182,7 +182,7 @@
 				}).done();
 			});
 
-			it.skip('should return compiled ts file from compileFile method', function(done) {
+			it('should return compiled ts file from compileFile method', function(done) {
 				Compiler.compileFile(dir + '/ts/simple.ts').then(function(data) {
 					data.should.be.equal(files.results.ts);
 					done();
