@@ -10,6 +10,7 @@
 		simple: {
 			coffee: fs.readFileSync(dir + '/coffee/simple.coffee', {encoding: 'utf-8'}),
 			json: fs.readFileSync(dir + '/json/simple.json', {encoding: 'utf-8'}),
+			js: fs.readFileSync(dir + '/js/simple.js', {encoding: 'utf-8'}),
 			ts: fs.readFileSync(dir + '/ts/simple.ts', {encoding: 'utf-8'}),
 			less: fs.readFileSync(dir + '/less/simple.less', {encoding: 'utf-8'}),
 			scss: fs.readFileSync(dir + '/scss/simple.scss', {encoding: 'utf-8'}),
@@ -18,7 +19,6 @@
 		},
 		error: {
 			coffee: fs.readFileSync(dir + '/coffee/error.coffee', {encoding: 'utf-8'}),
-			json: fs.readFileSync(dir + '/json/error.json', {encoding: 'utf-8'}),
 			ts: fs.readFileSync(dir + '/ts/error.ts', {encoding: 'utf-8'}),
 			less: fs.readFileSync(dir + '/less/error.less', {encoding: 'utf-8'}),
 			scss: fs.readFileSync(dir + '/scss/error.scss', {encoding: 'utf-8'}),
@@ -32,6 +32,7 @@
 		results: {
 			coffee: "(function() {\n  var message;\n\n  message = 'hello';\n\n}).call(this);\n",
 			json: '(function() {\nreturn {\n\t"message": "hello"\n}\n}).call(this);\n',
+			js: "(function() {\nvar message = 'hello';\n}).call(this);\n",
 			ts: "var message = 'hello';\r\n",
 			less: 'body {\n  color: #ff0000;\n}\n',
 			scss: 'body {\n  color: red; }\n',
@@ -99,6 +100,13 @@
 			it('should return compiled json file', function(done) {
 				Compiler.compile('json', files.simple.json).then(function(data) {
 					data.should.be.equal(files.results.json);
+					done();
+				}).done();
+			});
+
+			it('should return compiled js file', function(done) {
+				Compiler.compile('js', files.simple.js).then(function(data) {
+					data.should.be.equal(files.results.js);
 					done();
 				}).done();
 			});

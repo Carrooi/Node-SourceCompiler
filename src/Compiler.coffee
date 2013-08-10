@@ -166,12 +166,10 @@ class Compiler
 			return deferred.promise
 
 		json: (data, options) ->
-			deferred = Q.defer()
-			deferred.resolve("(function() {\nreturn #{data}\n}).call(this);\n")
-			return deferred.promise
+			return Q.resolve("(function() {\nreturn #{data}\n}).call(this);\n")
 
 		js: (data, options) ->
-			return Q.resolve(data)
+			return Q.resolve("(function() {\n#{data}\n}).call(this);\n")
 
 		ts: (data, options) =>
 			if options.path == null

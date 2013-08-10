@@ -164,6 +164,9 @@ Compiler.compileFile('/var/path/to/the/original/file.less', {dependents: ['/var/
 
 ## Changelog
 
+* 1.3.1
+	+ JS files are automatically wrapped into function
+
 * 1.3.0
 	+ Support for remote (HTTP/HTTPS) files
 
