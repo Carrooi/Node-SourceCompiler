@@ -103,7 +103,7 @@
 				}).done();
 			});
 
-			it('should return compiled ts file', function(done) {		// Path must be defined
+			it.skip('should return compiled ts file', function(done) {		// Path must be defined
 				Compiler.compile('ts', files.simple.ts, {path: dir + '/ts/simple.ts'}).then(function(data) {
 					data.should.be.equal(files.results.ts);
 					done();
@@ -128,13 +128,6 @@
 				}).done();
 			});
 
-			it('should return error in ts if path is not defined', function(done) {
-				Compiler.compile('ts', files.error.ts, {path: dir + '/ts/error.ts'}).fail(function(err) {
-					err.should.be.an.instanceOf(Error);
-					done();
-				}).done();
-			});
-
 			/**
 			 * SIMPLE JS FILES WITH ERRORS AND BETTER ERROR MESSAGES
 			 */
@@ -150,21 +143,21 @@
 			 * MINIFY JS
 			 */
 
-			it('should return minified coffee styles', function(done) {
+			it('should return minified coffee file', function(done) {
 				Compiler.compile('coffee', files.simple.coffee, {minify: true}).then(function(data) {
 					data.should.be.equal(files.minified.js);
 					done();
 				}).done();
 			});
 
-			it('should return minified json styles', function(done) {
+			it('should return minified json file', function(done) {
 				Compiler.compile('json', files.simple.json, {minify: true}).then(function(data) {
 					data.should.be.equal(files.minified.json);
 					done();
 				}).done();
 			});
 
-			it('should return minified ts styles', function(done) {
+			it.skip('should return minified ts file', function(done) {
 				Compiler.compile('ts', files.simple.ts, {path: dir + '/ts/simple.ts', minify: true}).then(function(data) {
 					data.should.be.equal(files.minified.ts);
 					done();
@@ -189,7 +182,7 @@
 				}).done();
 			});
 
-			it('should return compiled ts file from compileFile method', function(done) {
+			it.skip('should return compiled ts file from compileFile method', function(done) {
 				Compiler.compileFile(dir + '/ts/simple.ts').then(function(data) {
 					data.should.be.equal(files.results.ts);
 					done();
@@ -428,6 +421,75 @@
 					err.should.be.an.instanceOf(Error);
 					done();
 				}).done();
+			});
+
+		});
+
+		describe('#setCache()', function() {
+
+			beforeEach(function() {
+				Compiler.setCache(__dirname + '/data/cache');
+			})
+
+			afterEach(function() {
+				Compiler.cache = null;
+				var file = __dirname + '/data/cache/__' + Compiler.CACHE_NAMESPACE + '.json'
+				if (fs.existsSync(file)) {
+					fs.unlinkSync(file);
+				}
+			});
+
+			it('should be null when coffee file is not in cache', function() {
+				should.not.exists(Compiler.cache.load(dir + '/coffee/simple.coffee'));
+			});
+
+			it('should save compiled coffee file to cache', function(done) {
+				Compiler.compileFile(dir + '/coffee/simple.coffee').then(function(data) {
+					Compiler.cache.load(dir + '/coffee/simple.coffee').should.be.equal(files.results.coffee);
+					done();
+				}).done();
+			});
+
+			it('should load compiled coffee file from cache', function(done) {
+				Compiler.compileFile(dir + '/coffee/simple.coffee').then(function(data) {
+					Compiler.compileFile(dir + '/coffee/simple.coffee').then(function(data) {
+						data.should.be.equal(files.results.coffee);
+						done();
+					}).done();
+				}).done();
+			});
+
+			it('should not save less file to cache', function(done) {
+				Compiler.compileFile(dir + '/less/simple.less').then(function(data) {
+					should.not.exists(Compiler.cache.load(dir + '/less/simple.less'));
+					done();
+				}).done();
+			});
+
+			it('should save less file to cache if dependents are defined', function(done) {
+				Compiler.compileFile(dir + '/less/simple.less', {dependents: []}).then(function(data) {
+					Compiler.cache.load(dir + '/less/simple.less').should.be.equal(files.results.less);
+					done();
+				}).done();
+			});
+
+		});
+
+		describe('#_parseDependents()', function() {
+
+			it('should return list of files from fs-finder', function() {
+				Compiler._parseDependents([
+					dir + '/less/simple.less',
+					dir + '/scss/*.<scss$>',
+					dir + '/styl/<(import|simple)\.styl$>'
+				]).should.be.eql([
+					dir + '/less/simple.less',
+					dir + '/scss/error.scss',
+					dir + '/scss/import.scss',
+					dir + '/scss/simple.scss',
+					dir + '/styl/import.styl',
+					dir + '/styl/simple.styl'
+				]);
 			});
 
 		});

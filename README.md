@@ -66,6 +66,7 @@ compiler needs to use some workarounds because of this.
 * precompile: some frameworks can just prepare your code for another usage without framework itself (eg. in browser). This options is for templates
 * jquerify: this option is also for templates and it wrap automatically result template into jQuery function
 * data: again for templates. This is an object with your variables passed to templates
+* dependents: array of dependent files (used for style caching - see below)
 
 ```
 Compiler.compile('less', 'body { color: red; }', {
@@ -110,7 +111,51 @@ Compiler.compile('scss', '{',).fail(function(err) {
 });
 ```
 
+## Caching
+
+You can turn on cache, so when files are not changed, they will be loaded from cache. Source compiler uses [cache-storage](https://npmjs.org/package/cache-storage)
+module.
+
+Caching works only for compileFile method.
+
+```
+Compiler.setCache('/path/to/cache/directory');
+```
+
+Now every files will be parsed only once after change and then will be loaded from cache. The only difference is with styles.
+
+If you also want to cache styles, you have to set dependent files (files which you are importing in your styles). If these
+files are not provided, then when you change some imported files, source-compiler will not recompile your styles, but use
+old version from cache.
+
+```
+Compiler.compileFile('/var/path/to/the/original/file.less', {dependents: ['/var/path/to/the/original/other.less']}).then(function(data) {
+
+});
+```
+
+You can see, that dependents option is just array of dependent files. If you have not got any imports in styles, set just
+empty array. If you will not, cache will be turned off for this style file.
+
+When you have got many dependent files, you can use asterisk or regular expression for dependents options. This feature
+uses [fs-finder](https://npmjs.org/package/fs-finder) package.
+
+```
+Compiler.compileFile('/var/path/to/the/original/file.less', {dependents: ['/var/path/to/the/original/*.less']}).then(function(data) {
+
+});
+
+// or with some regex
+
+Compiler.compileFile('/var/path/to/the/original/file.less', {dependents: ['/var/path/to/the/original/<[a-z]+\.less$>']}).then(function(data) {
+
+});
+```
+
 ## Changelog
+
+* 1.2.0
+	+ Added support for caching files
 
 * 1.1.1
 	+ Added support for plain javascript
