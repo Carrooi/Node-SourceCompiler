@@ -496,14 +496,16 @@
 				Compiler._parseDependents([
 					dir + '/less/simple.less',
 					dir + '/scss/*.<scss$>',
-					dir + '/styl/<(import|simple)\.styl$>'
+					dir + '/styl/<(import|simple)\.styl$>',
+					'http://www.my-site.com/style.less'
 				]).should.be.eql([
 					dir + '/less/simple.less',
 					dir + '/scss/error.scss',
 					dir + '/scss/import.scss',
 					dir + '/scss/simple.scss',
 					dir + '/styl/import.styl',
-					dir + '/styl/simple.styl'
+					dir + '/styl/simple.styl',
+					'http://www.my-site.com/style.less'
 				]);
 			});
 

@@ -141,7 +141,9 @@ class Compiler
 	@_parseDependents: (dependents) ->
 		result = []
 		for _path in dependents
-			if fs.existsSync(_path) && fs.statSync(_path).isFile()
+			if _path.match(/^http/) != null
+				result.push(_path)
+			else if fs.existsSync(_path) && fs.statSync(_path).isFile()
 				result.push(_path)
 			else
 				result = result.concat(Finder.findFiles(_path))
