@@ -164,6 +164,9 @@ Compiler.compileFile('/var/path/to/the/original/file.less', {dependents: ['/var/
 
 ## Changelog
 
+* 1.3.3
+	+ Bug in wrapping js files
+
 * 1.3.2
 	+ Bug in loading remote files
 

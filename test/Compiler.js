@@ -32,7 +32,7 @@
 		results: {
 			coffee: "(function() {\n  var message;\n\n  message = 'hello';\n\n}).call(this);\n",
 			json: '(function() {\nreturn {\n\t"message": "hello"\n}\n}).call(this);\n',
-			js: "(function() {\nvar message = 'hello';\n}).call(this);\n",
+			js: "var message = 'hello';",
 			ts: "var message = 'hello';\r\n",
 			less: 'body {\n  color: #ff0000;\n}\n',
 			scss: 'body {\n  color: red; }\n',

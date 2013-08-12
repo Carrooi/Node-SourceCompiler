@@ -171,7 +171,7 @@ class Compiler
 			return Q.resolve("(function() {\nreturn #{data}\n}).call(this);\n")
 
 		js: (data, options) ->
-			return Q.resolve("(function() {\n#{data}\n}).call(this);\n")
+			return Q.resolve(data)
 
 		ts: (data, options) =>
 			if options.path == null
