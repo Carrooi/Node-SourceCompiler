@@ -14,7 +14,7 @@ Changelog is in the bottom of this readme
 
 * js (plain javascript)
 * coffee-script ([link](https://npmjs.org/package/coffee-script))
-* json (wrap automatically into annonymouse function)
+* json (wrap automatically into anonymous function)
 * typescript ([link](https://npmjs.org/package/typescript))
 
 ### CSS frameworks
@@ -50,7 +50,7 @@ See section `options`
 
 ### Typescript
 
-Every time when you want to use typescript, you will need to set also path, othervise error will be returns.
+Every time when you want to use typescript, you will need to set also path, otherwise error will be returns.
 
 See section `options`
 
@@ -79,7 +79,7 @@ Compiler.compile('less', 'body { color: red; }', {
 
 ## ECO templates
 
-Unfortenatelly now minifiing is supported only for jquerified templates.
+Unfortunately now minifiing is supported only for jquerified templates.
 
 ## Parsing files
 
@@ -103,7 +103,7 @@ Compiler.compileFile('http://my.website.com/some_file.coffee').then(function(res
 
 ## Handling errors
 
-All error messages should be parsed into one type, so you can easilly work with them. Errors are [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) instances.
+All error messages should be parsed into one type, so you can easily work with them. Errors are [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) instances.
 
 ```
 Compiler.compile('scss', '{',).than(function(result) {
@@ -167,6 +167,7 @@ Compiler.compileFile('/var/path/to/the/original/file.less', {dependents: ['/var/
 * 1.3.4
 	+ Rewritten tests
 	+ Missing error messages from compileFile method
+	+ Some typos in readme
 
 * 1.3.3
 	+ Bug in wrapping js files
@@ -187,7 +188,7 @@ Compiler.compileFile('/var/path/to/the/original/file.less', {dependents: ['/var/
 	+ Added support for plain javascript
 
 * 1.1.0
-	+ Inceresed timeout for tests (because of typescript)
+	+ Increased timeout for tests (because of typescript)
 	+ Another test reporter
 	+ Support for ECO templates
 	+ jquerifing templates
