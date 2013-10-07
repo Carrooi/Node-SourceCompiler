@@ -314,9 +314,15 @@
             return done();
           }).done();
         });
-        return it('should return compiled coffee file from remote repository', function(done) {
+        it('should return compiled coffee file from remote repository', function(done) {
           return Compiler.compileFile('https://raw.github.com/sakren/node-source-compiler/master/test/data/coffee/simple.coffee').then(function(data) {
             expect(data).to.be.equal("(function() {\n  var message;\n\n  message = 'hello';\n\n}).call(this);\n");
+            return done();
+          }).done();
+        });
+        return it('should return an error', function(done) {
+          return Compiler.compileFile(dir + '/coffee/error.coffee').fail(function(err) {
+            expect(err).to.be.an["instanceof"](Error);
             return done();
           }).done();
         });

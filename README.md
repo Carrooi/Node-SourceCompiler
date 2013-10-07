@@ -166,6 +166,7 @@ Compiler.compileFile('/var/path/to/the/original/file.less', {dependents: ['/var/
 
 * 1.3.4
 	+ Rewritten tests
+	+ Missing error messages from compileFile method
 
 * 1.3.3
 	+ Bug in wrapping js files

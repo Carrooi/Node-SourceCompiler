@@ -249,6 +249,12 @@ describe 'Compiler', ->
 					done()
 				).done()
 
+			it 'should return an error', (done) ->
+				Compiler.compileFile(dir + '/coffee/error.coffee').fail( (err) ->
+					expect(err).to.be.an.instanceof(Error)
+					done()
+				).done()
+
 		describe 'json', ->
 			it 'should return compiled json file from compileFile method', (done) ->
 				Compiler.compileFile(dir + '/json/simple.json').then( (data) ->

@@ -68,6 +68,8 @@ class Compiler
 				res.on('end', =>
 					@compile(type, data, options).then( (data) ->
 						deferred.resolve(data)
+					).fail( (err) ->
+						deferred.reject(err)
 					)
 				)
 			).on('error', (e) ->
@@ -80,6 +82,8 @@ class Compiler
 				else
 					@compile(type, data, options).then( (data) ->
 						deferred.resolve(data)
+					).fail( (err) ->
+						deferred.reject(err)
 					)
 			)
 		return deferred.promise
