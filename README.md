@@ -4,9 +4,11 @@ This package allows you to simply use some transcompilers with just one API and 
 
 Source-Compiler uses [Q](https://npmjs.org/package/q) promise package.
 
-## Changelog
+## Installation
 
-Changelog is in the bottom of this readme
+```
+$ npm install source-compiler
+```
 
 ## Supported files
 
@@ -163,6 +165,9 @@ Compiler.compileFile('/var/path/to/the/original/file.less', {dependents: ['/var/
 ```
 
 ## Changelog
+
+* 1.3.5
+	+ Better readme
 
 * 1.3.4
 	+ Rewritten tests
