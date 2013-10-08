@@ -276,6 +276,12 @@ describe 'Compiler', ->
 					done()
 				).done()
 
+			it 'should return an error for bad less file', (done) ->
+				Compiler.compileFile(dir + '/less/error.less').fail( (err) ->
+					expect(err).to.be.an.instanceof(Error)
+					done()
+				).done()
+
 		describe 'scss', ->
 			it 'should return compiled scss file from compileFile method', (done) ->
 				Compiler.compileFile(dir + '/scss/simple.scss').then( (data) ->

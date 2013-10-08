@@ -344,9 +344,15 @@
         });
       });
       describe('less', function() {
-        return it('should return compiled less file from compileFile method', function(done) {
+        it('should return compiled less file from compileFile method', function(done) {
           return Compiler.compileFile(dir + '/less/simple.less').then(function(data) {
             expect(data).to.be.equal('body {\n  color: #ff0000;\n}\n');
+            return done();
+          }).done();
+        });
+        return it('should return an error for bad less file', function(done) {
+          return Compiler.compileFile(dir + '/less/error.less').fail(function(err) {
+            expect(err).to.be.an["instanceof"](Error);
             return done();
           }).done();
         });
