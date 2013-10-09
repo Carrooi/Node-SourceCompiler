@@ -308,9 +308,9 @@ describe 'Compiler', ->
 					done()
 				).done()
 
-	describe '#_parseDependents()', ->
+	describe '#parseDependents()', ->
 		it 'should return list of files from fs-finder', ->
-			expect(Compiler._parseDependents([
+			expect(Compiler.parseDependents([
 				dir + '/less/simple.less'
 				dir + '/scss/*.<scss$>'
 				dir + '/styl/<(import|simple)\.styl$>'

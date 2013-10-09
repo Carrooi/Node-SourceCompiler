@@ -170,6 +170,8 @@ Compiler.compileFile('/var/path/to/the/original/file.less', {dependents: ['/var/
 	+ Better readme
 	+ Added some tests
 	+ Updated dependencies
+	+ Refactoring whole Compiler (each compiler has got own class)
+	+ Added custom exception classes
 
 * 1.3.4
 	+ Rewritten tests
