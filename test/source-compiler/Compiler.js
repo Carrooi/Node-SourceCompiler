@@ -10,11 +10,11 @@
 
   Compiler = require('../../lib/Compiler');
 
-  InvalidArgumentException = require('../../lib/Exceptions/InvalidArgumentException');
+  InvalidArgumentException = require('../../Exceptions/InvalidArgumentException');
 
-  CompileException = require('../../lib/Exceptions/CompileException');
+  CompileException = require('../../Exceptions/CompileException');
 
-  SyntaxException = require('../../lib/Exceptions/SyntaxException');
+  SyntaxException = require('../../Exceptions/SyntaxException');
 
   dir = path.resolve(__dirname + '/../data');
 

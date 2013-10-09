@@ -3,9 +3,9 @@ fs = require 'fs'
 path = require 'path'
 
 Compiler = require '../../lib/Compiler'
-InvalidArgumentException = require '../../lib/Exceptions/InvalidArgumentException'
-CompileException = require '../../lib/Exceptions/CompileException'
-SyntaxException = require '../../lib/Exceptions/SyntaxException'
+InvalidArgumentException = require '../../Exceptions/InvalidArgumentException'
+CompileException = require '../../Exceptions/CompileException'
+SyntaxException = require '../../Exceptions/SyntaxException'
 
 dir = path.resolve(__dirname + '/../data')
 
