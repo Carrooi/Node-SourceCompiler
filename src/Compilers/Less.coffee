@@ -3,6 +3,7 @@ path = require 'path'
 less = require 'less'
 
 Compiler = require './Compiler'
+CompileException = require '../Exceptions/CompileException'
 SyntaxException = require '../Exceptions/SyntaxException'
 
 class Less extends Compiler
@@ -43,7 +44,11 @@ class Less extends Compiler
 
 
 	parseError: (error, _path) ->
-		e = new SyntaxException(error.message)
+		if error.type == 'File'
+			e = new CompileException(error.message)
+		else
+			e = new SyntaxException(error.message)
+
 		e.filename = _path
 		e.line = error.line
 		e.column = error.column

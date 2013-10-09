@@ -217,7 +217,7 @@
         });
         it('should return error if in less are imports and path is not defined', function(done) {
           return Compiler.compile('less', loadFile('less/import.less')).fail(function(err) {
-            expect(err).to.be.an["instanceof"](SyntaxException);
+            expect(err).to.be.an["instanceof"](CompileException);
             expect(err.message).to.be.equal("\'simple.less\' wasn\'t found");
             expect(err.filename).to.be["null"];
             expect(err.line).to.be.equal(1);
