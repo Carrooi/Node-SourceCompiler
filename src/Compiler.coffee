@@ -152,9 +152,11 @@ class Compiler
 			return Q.reject(new InvalidArgumentException "Type #{type} is not supported.")
 
 		deferred = Q.defer()
-		@getCompiler(type).parse(data, options).then( (data) =>
+
+		compiler = @getCompiler(type)
+		compiler.parse(data, options).then( (data) =>
 			if options.minify
-				minifier = @getCompiler(type).getMinifier(options)
+				minifier = compiler.getMinifier(options)
 				data = Helpers.minify[minifier](data)
 
 			deferred.resolve(data)
