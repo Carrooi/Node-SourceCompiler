@@ -5,9 +5,12 @@ fs = require 'fs'
 
 Compiler = require './Compiler'
 InvalidArgumentException = require '../Exceptions/InvalidArgumentException'
-CompileException = require '../Exceptions/CompileException'
+SyntaxException = require '../Exceptions/SyntaxException'
 
 class Ts extends Compiler
+
+
+	@ESCAPE_PATTERN = ['.', '[', ']', '\\', '/', '^', '$', '|', '?', '+', '(', ')', '{', '}']
 
 
 	getMinifier: -> return 'uglify'
@@ -15,7 +18,7 @@ class Ts extends Compiler
 
 	parse: (data, options = {}) ->
 		if options.path == null
-			return Q.reject(new InvalidArgumentException 'You have to set path for compiling typescript')
+			return Q.reject(new InvalidArgumentException 'You have to set path for compiling typescript.')
 
 		deferred = Q.defer()
 		dir = path.dirname(options.path)
@@ -40,8 +43,20 @@ class Ts extends Compiler
 
 
 	parseError: (error, _path) ->
-		e = new CompileException error.message.replace(/^Command\sfailed\:\s/, '')
+		replace = []
+		replace.push('\\' + char) for char in Ts.ESCAPE_PATTERN
+		p = _path.replace(new RegExp('(' + replace.join('|') + ')', 'g'), '\\$1')
+
+		message = error.message.replace(/\n$/, '')
+
+		r = new RegExp('^Command\\sfailed\\:\\s' + p + '\\((\\d+)\\,(\\d+)\\)\\:\\serror\\sTS(\\d+)\\:\\s(.+)$')
+		match = message.match(r)
+
+		e = new SyntaxException(match[4])
 		e.filename = _path
+		e.line = parseInt(match[1])
+		e.column = parseInt(match[2])
+		e.code = parseInt(match[3])
 
 		return e
 

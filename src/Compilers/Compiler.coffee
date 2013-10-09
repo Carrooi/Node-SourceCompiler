@@ -1,5 +1,6 @@
 uglify = require 'uglify-js'
 cleanCss = require 'clean-css'
+htmlMinifier = require('html-minifier').minify
 
 class Compiler
 
@@ -22,6 +23,17 @@ class Compiler
 	@minify:
 		uglify: (data) -> return uglify.minify(data, fromString: true).code
 		cleanCss: (data) -> return cleanCss.process(data)
+		html: (data) ->
+			data = htmlMinifier(data,
+				removeComments: true
+				removeCommentsFromCDATA: true
+				removeCDATASectionsFromCDATA: true
+				collapseWhitespace: true
+				collapseBooleanAttributes: true
+				removeRedundantAttributes: true
+				removeEmptyAttributes: true
+			)
+			return data
 
 
 	@jquerify:

@@ -3,7 +3,7 @@ stylus = require 'stylus'
 path = require 'path'
 
 Compiler = require './Compiler'
-CompileException = require '../Exceptions/CompileException'
+SyntaxException = require '../Exceptions/SyntaxException'
 
 class Styl extends Compiler
 
@@ -34,14 +34,14 @@ class Styl extends Compiler
 
 	parseError: (error, _path) ->
 		data = error.message.split('\n')
-		line = data[0].split(':')[1]
-		msg = data[data.length - 2]
-		msg += if path != null then " in #{_path}:" else ' on line '
-		msg += line
 
-		e = new CompileException msg
+		line = data[0].match(/\:(\d+)$/)[1]
+		message = data[data.length - 2]
+
+		e = new SyntaxException(message)
 		e.filename = _path
-		e.line = line
+		e.line = parseInt(line)
+		e.column = null
 
 		return e
 

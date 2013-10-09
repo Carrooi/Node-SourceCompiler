@@ -166,12 +166,14 @@ Compiler.compileFile('/var/path/to/the/original/file.less', {dependents: ['/var/
 
 ## Changelog
 
-* 1.4.0
+* 2.0.0
 	+ Better readme
 	+ Added some tests
 	+ Updated dependencies
 	+ Refactoring whole Compiler (each compiler has got own class)
 	+ Added custom exception classes
+	+ Much better error exceptions
+	+ Support for minifiing html from eco templates (thanks to [html-minifier](https://npmjs.org/package/html-minifier))
 
 * 1.3.4
 	+ Rewritten tests

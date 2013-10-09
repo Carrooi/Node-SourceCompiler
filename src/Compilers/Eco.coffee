@@ -7,17 +7,20 @@ InvalidArgumentException = require '../Exceptions/InvalidArgumentException'
 class Eco extends Compiler
 
 
-	getMinifier: -> return 'uglify'
+	getMinifier: (options) ->
+		if options.jquerify == true || options.precompile == true
+			return 'uglify'
+		else
+			return 'html'
 
 
 	parse: (data, options = {}) ->
-		if options.minify == true && options.jquerify == true
-
-		else if options.minify == true
-			return Q.reject(new InvalidArgumentException 'Minifing eco templates is not implemented')
+		deferred = Q.defer()
 
 		if options.precompile == true
 			data = eco.precompile(data)
+			data = data.replace(/\n/g, '\n  ')
+			data = '(function() {\n  return ' + data + '\n}).call(this);'
 			if options.jquerify == true
 				data = Compiler.jquerify.precompiled(data)
 		else
@@ -25,7 +28,9 @@ class Eco extends Compiler
 			if options.jquerify == true
 				data = Compiler.jquerify.compiled(data)
 
-		return Q.resolve(data)
+		deferred.resolve(data)
+
+		return deferred.promise
 
 
 module.exports = Eco

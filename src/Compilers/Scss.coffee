@@ -3,7 +3,7 @@ path = require 'path'
 sass = require 'node-sass'
 
 Compiler = require './Compiler'
-CompileException = require '../Exceptions/CompileException'
+SyntaxException = require '../Exceptions/SyntaxException'
 
 class Scss extends Compiler
 
@@ -32,14 +32,11 @@ class Scss extends Compiler
 
 	parseError: (error, _path) ->
 		data = error.match(/^source\sstring\:(\d+)\:\serror\:\s(.*)/)
-		line = data[1]
-		msg = data[2]
-		msg += if _path != null then " in #{_path}:" else ' on line '
-		msg += line
 
-		e = new CompileException msg
+		e = new SyntaxException(data[2])
 		e.filename = _path
-		e.line = line
+		e.line = parseInt(data[1])
+		e.column = null
 
 		return e
 

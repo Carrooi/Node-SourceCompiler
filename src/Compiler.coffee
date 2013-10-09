@@ -148,11 +148,14 @@ class Compiler
 		if typeof options.dependents == 'undefined' then options.dependents = []
 
 		if !@hasCompiler(type)
-			return Q.reject(new InvalidArgumentException "Type #{type} is not supported")
+			return Q.reject(new InvalidArgumentException "Type #{type} is not supported.")
 
 		deferred = Q.defer()
 		@getCompiler(type).parse(data, options).then( (data) =>
-			if options.minify then data = BaseCompiler.minify[@getCompiler(type).getMinifier()](data)
+			if options.minify
+				minifier = @getCompiler(type).getMinifier(options)
+				data = BaseCompiler.minify[minifier](data)
+
 			deferred.resolve(data)
 		, (err) ->
 			deferred.reject(err)

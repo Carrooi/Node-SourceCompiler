@@ -4,6 +4,7 @@ path = require 'path'
 
 Compiler = require '../../lib/Compiler'
 InvalidArgumentException = require '../../lib/Exceptions/InvalidArgumentException'
+SyntaxException = require '../../lib/Exceptions/SyntaxException'
 
 dir = path.resolve(__dirname + '/../data')
 
@@ -26,6 +27,7 @@ describe 'Compiler', ->
 		it 'should return error when framework type is not supported', (done) ->
 			Compiler.compile('jpg', '').fail( (err) ->
 				expect(err).to.be.an.instanceof(InvalidArgumentException)
+				expect(err.message).to.be.equal('Type jpg is not supported.')
 				done()
 			).done()
 
@@ -38,13 +40,27 @@ describe 'Compiler', ->
 
 			it 'should return error in coffee', (done) ->
 				Compiler.compile('coffee', loadFile('coffee/error.coffee')).fail( (err) ->
-					expect(err).to.be.an.instanceof(Error)
+					expect(err).to.be.an.instanceof(SyntaxException)
+					expect(err.message).to.be.equal('unexpected COMPARE')
+					expect(err.filename).to.be.null
+					done()
+				).done()
+
+			it 'should return another error in coffee', (done) ->
+				Compiler.compile('coffee', loadFile('coffee/error2.coffee')).fail( (err) ->
+					expect(err).to.be.an.instanceof(SyntaxException)
+					expect(err.message).to.be.equal('unexpected =')
+					expect(err.filename).to.be.null
+					expect(err.line).to.be.equal(12)
+					expect(err.column).to.be.equal(7)
 					done()
 				).done()
 
 			it 'should return error in coffee with information about source file', (done) ->
 				Compiler.compile('coffee', loadFile('coffee/error.coffee'), {path: dir + '/coffee/error.coffee'}).fail( (err) ->
-					expect(err).to.be.an.instanceof(Error)
+					expect(err).to.be.an.instanceof(SyntaxException)
+					expect(err.message).to.be.equal('unexpected COMPARE')
+					expect(err.filename).to.be.equal(dir + '/coffee/error.coffee')
 					done()
 				).done()
 
@@ -83,7 +99,29 @@ describe 'Compiler', ->
 
 			it 'should return error in ts if path is not defined', (done) ->
 				Compiler.compile('ts', loadFile('ts/simple.ts')).fail( (err) ->
-					expect(err).to.be.an.instanceof(Error)
+					expect(err).to.be.an.instanceof(InvalidArgumentException)
+					expect(err.message).to.be.equal('You have to set path for compiling typescript.')
+					done()
+				).done()
+
+			it 'should return error for bad file', (done) ->
+				Compiler.compile('ts', loadFile('ts/error.ts'), {path: dir + '/ts/error.ts'}).fail( (err) ->
+					expect(err).to.be.an.instanceof(SyntaxException)
+					expect(err.message).to.have.string('Unexpected token')
+					expect(err.filename).to.be.equal(dir + '/ts/error.ts')
+					expect(err.line).to.be.equal(1)
+					expect(err.column).to.be.equal(1)
+					expect(err.code).to.be.equal(1008)
+					done()
+				).done()
+
+			it 'should return another error for bad file', (done) ->
+				Compiler.compile('ts', loadFile('ts/error2.ts'), {path: dir + '/ts/error2.ts'}).fail( (err) ->
+					expect(err).to.be.an.instanceof(SyntaxException)
+					expect(err.filename).to.be.equal(dir + '/ts/error2.ts')
+					expect(err.line).to.be.equal(7)
+					expect(err.column).to.be.equal(35)
+					expect(err.code).to.be.equal(1005)
 					done()
 				).done()
 
@@ -102,19 +140,34 @@ describe 'Compiler', ->
 
 			it 'should return error in less', (done) ->
 				Compiler.compile('less', loadFile('less/error.less')).fail( (err) ->
-					expect(err).to.be.an.instanceof(Error)
+					expect(err).to.be.an.instanceof(SyntaxException)
+					expect(err.message).to.be.equal('missing closing `}`')
+					expect(err.filename).to.be.null
+					expect(err.line).to.be.equal(1)
+					expect(err.column).to.be.equal(0)
+					expect(err.type).to.be.equal('Parse')
 					done()
 				).done()
 
 			it 'should return another error', (done) ->
 				Compiler.compile('less', 'body {color: @red;}').fail( (err) ->
-					expect(err).to.be.an.instanceof(Error)
+					expect(err).to.be.an.instanceof(SyntaxException)
+					expect(err.message).to.be.equal('variable @red is undefined')
+					expect(err.filename).to.be.null
+					expect(err.line).to.be.equal(1)
+					expect(err.column).to.be.equal(13)
+					expect(err.type).to.be.equal('Name')
 					done()
 				).done()
 
 			it 'should return error in less with information about source file', (done) ->
 				Compiler.compile('less', loadFile('less/error.less'), {path: dir + '/less/error.less'}).fail( (err) ->
-					expect(err).to.be.instanceof(Error)
+					expect(err).to.be.an.instanceof(SyntaxException)
+					expect(err.message).to.be.equal('missing closing `}`')
+					expect(err.filename).to.be.equal(dir + '/less/error.less')
+					expect(err.line).to.be.equal(1)
+					expect(err.column).to.be.equal(0)
+					expect(err.type).to.be.equal('Parse')
 					done()
 				).done()
 
@@ -126,7 +179,12 @@ describe 'Compiler', ->
 
 			it 'should return error if in less are imports and path is not defined', (done) ->
 				Compiler.compile('less', loadFile('less/import.less')).fail( (err) ->
-					expect(err).to.be.an.instanceof(Error)
+					expect(err).to.be.an.instanceof(SyntaxException)
+					expect(err.message).to.be.equal("\'simple.less\' wasn\'t found")
+					expect(err.filename).to.be.null
+					expect(err.line).to.be.equal(1)
+					expect(err.column).to.be.equal(0)
+					expect(err.type).to.be.equal('File')
 					done()
 				).done()
 
@@ -145,13 +203,21 @@ describe 'Compiler', ->
 
 			it 'should return error in scss', (done) ->
 				Compiler.compile('scss', loadFile('scss/error.scss')).fail( (err) ->
-					expect(err).to.be.an.instanceof(Error)
+					expect(err).to.be.an.instanceof(SyntaxException)
+					expect(err.message).to.have.string('invalid selector')
+					expect(err.filename).to.be.null
+					expect(err.line).to.be.equal(1)
+					expect(err.column).to.be.null
 					done()
 				).done()
 
 			it 'should return error in scss with information about source file', (done) ->
 				Compiler.compile('scss', loadFile('scss/error.scss'), {path: dir + '/scss/error.scss'}).fail( (err) ->
-					expect(err).to.be.an.instanceof(Error)
+					expect(err).to.be.an.instanceof(SyntaxException)
+					expect(err.message).to.have.string('invalid selector')
+					expect(err.filename).to.be.equal(dir + '/scss/error.scss')
+					expect(err.line).to.be.equal(1)
+					expect(err.column).to.be.null
 					done()
 				).done()
 
@@ -163,7 +229,11 @@ describe 'Compiler', ->
 
 			it 'should return error if in scss are imports and path is not defined', (done) ->
 				Compiler.compile('scss', loadFile('scss/import.scss')).fail( (err) ->
-					expect(err).to.be.an.instanceof(Error)
+					expect(err).to.be.an.instanceof(SyntaxException)
+					expect(err.message).to.have.string('file to import not found or unreadable')
+					expect(err.filename).to.be.null
+					expect(err.line).to.be.equal(1)
+					expect(err.column).to.be.equal(null)
 					done()
 				).done()
 
@@ -182,13 +252,21 @@ describe 'Compiler', ->
 
 			it 'should return error in styl', (done) ->
 				Compiler.compile('styl', loadFile('styl/error.styl')).fail( (err) ->
-					expect(err).to.be.an.instanceof(Error)
+					expect(err).to.be.an.instanceof(SyntaxException)
+					expect(err.message).to.have.string('expected "}"')
+					expect(err.filename).to.be.null
+					expect(err.line).to.be.equal(1)
+					expect(err.column).to.be.null
 					done()
 				).done()
 
 			it 'should return error in styl with information about source file', (done) ->
 				Compiler.compile('styl', loadFile('styl/error.styl'), {path: dir + '/styl/error.styl'}).fail( (err) ->
-					expect(err).to.be.an.instanceof(Error)
+					expect(err).to.be.an.instanceof(SyntaxException)
+					expect(err.message).to.have.string('expected "}"')
+					expect(err.filename).to.be.equal(dir + '/styl/error.styl')
+					expect(err.line).to.be.equal(1)
+					expect(err.column).to.be.null
 					done()
 				).done()
 
@@ -200,7 +278,11 @@ describe 'Compiler', ->
 
 			it 'should return error if in styl are imports and path is not defined', (done) ->
 				Compiler.compile('styl', loadFile('styl/import.styl')).fail( (err) ->
-					expect(err).to.be.an.instanceof(Error)
+					expect(err).to.be.an.instanceof(SyntaxException)
+					expect(err.message).to.be.equal('failed to locate @import file simple.styl')
+					expect(err.filename).to.be.null
+					expect(err.line).to.be.equal(1)
+					expect(err.column).to.be.null
 					done()
 				).done()
 
@@ -229,15 +311,15 @@ describe 'Compiler', ->
 					done()
 				).done()
 
-			it 'should return error if you try to minify precompiled eco file', (done) ->
-				Compiler.compile('eco', loadFile('eco/simple.eco'), {precompile: true, minify: true}).fail( (err) ->
-					expect(err).to.be.an.instanceof(Error)
+			it 'should return minify and precompiled eco file', (done) ->
+				Compiler.compile('eco', loadFile('eco/simple.eco'), {precompile: true, minify: true}).then( (data) ->
+					expect(data).to.be.a('string')
 					done()
 				).done()
 
 			it 'should return error if you try to minify clean template', (done) ->
-				Compiler.compile('eco', loadFile('eco/simple.eco'), {minify: true, data: {message: 'hello'}}).fail( (err) ->
-					expect(err).to.be.an.instanceof(Error)
+				Compiler.compile('eco', loadFile('eco/simple.eco'), {minify: true, data: {message: 'hello'}}).then( (data) ->
+					expect(data).to.be.equal('<span>hello</span><span>Bye</span>')
 					done()
 				).done()
 
@@ -258,7 +340,9 @@ describe 'Compiler', ->
 
 			it 'should return an error', (done) ->
 				Compiler.compileFile(dir + '/coffee/error.coffee').fail( (err) ->
-					expect(err).to.be.an.instanceof(Error)
+					expect(err).to.be.an.instanceof(SyntaxException)
+					expect(err.message).to.be.equal('unexpected COMPARE')
+					expect(err.filename).to.be.equal(dir + '/coffee/error.coffee')
 					done()
 				).done()
 
@@ -285,7 +369,12 @@ describe 'Compiler', ->
 
 			it 'should return an error for bad less file', (done) ->
 				Compiler.compileFile(dir + '/less/error.less').fail( (err) ->
-					expect(err).to.be.an.instanceof(Error)
+					expect(err).to.be.an.instanceof(SyntaxException)
+					expect(err.message).to.be.equal('missing closing `}`')
+					expect(err.filename).to.be.equal(dir + '/less/error.less')
+					expect(err.line).to.be.equal(1)
+					expect(err.column).to.be.equal(0)
+					expect(err.type).to.be.equal('Parse')
 					done()
 				).done()
 
@@ -298,7 +387,11 @@ describe 'Compiler', ->
 
 			it 'should return error for bad file', (done) ->
 				Compiler.compileFile(dir + '/scss/error.scss').fail( (err) ->
-					expect(err).to.be.an.instanceof(Error)
+					expect(err).to.be.an.instanceof(SyntaxException)
+					expect(err.message).to.have.string('invalid selector')
+					expect(err.filename).to.be.equal(dir + '/scss/error.scss')
+					expect(err.line).to.be.equal(1)
+					expect(err.column).to.be.null
 					done()
 				).done()
 
