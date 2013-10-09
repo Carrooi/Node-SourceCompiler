@@ -10,7 +10,7 @@ class Eco extends Compiler
 
 	getMinifier: (options) ->
 		if options.jquerify == true || options.precompile == true
-			return 'uglify'
+			return 'js'
 		else
 			return 'html'
 

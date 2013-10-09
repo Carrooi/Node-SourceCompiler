@@ -8,7 +8,7 @@ SyntaxException = require '../Exceptions/SyntaxException'
 class CoffeeScript extends Compiler
 
 
-	getMinifier: -> return 'uglify'
+	getMinifier: -> return 'js'
 
 
 	parse: (data, options = {}) ->

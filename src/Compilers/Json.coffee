@@ -5,7 +5,7 @@ Compiler = require './Compiler'
 class Json extends Compiler
 
 
-	getMinifier: -> return 'uglify'
+	getMinifier: -> return 'js'
 
 
 	parse: (data, options = {}) ->

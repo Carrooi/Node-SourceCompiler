@@ -13,7 +13,7 @@ class Ts extends Compiler
 	@ESCAPE_PATTERN = ['.', '[', ']', '\\', '/', '^', '$', '|', '?', '+', '(', ')', '{', '}']
 
 
-	getMinifier: -> return 'uglify'
+	getMinifier: -> return 'js'
 
 
 	parse: (data, options = {}) ->

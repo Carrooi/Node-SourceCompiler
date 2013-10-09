@@ -5,7 +5,7 @@ Compiler = require './Compiler'
 class Js extends Compiler
 
 
-	getMinifier: -> return 'uglify'
+	getMinifier: -> return 'js'
 
 
 	parse: (data, options = {}) ->
