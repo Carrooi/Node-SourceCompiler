@@ -4,7 +4,7 @@ exec = require('child_process').exec
 fs = require 'fs'
 
 Compiler = require './Compiler'
-InvalidArgumentException = require '../Exceptions/InvalidArgumentException'
+CompileException = require '../Exceptions/CompileException'
 SyntaxException = require '../Exceptions/SyntaxException'
 
 class Ts extends Compiler
@@ -18,7 +18,7 @@ class Ts extends Compiler
 
 	parse: (data, options = {}) ->
 		if options.path == null
-			return Q.reject(new InvalidArgumentException 'You have to set path for compiling typescript.')
+			return Q.reject(new CompileException 'You have to set path for compiling typescript.')
 
 		deferred = Q.defer()
 		dir = path.dirname(options.path)

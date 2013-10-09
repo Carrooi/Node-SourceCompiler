@@ -4,6 +4,7 @@ path = require 'path'
 
 Compiler = require '../../lib/Compiler'
 InvalidArgumentException = require '../../lib/Exceptions/InvalidArgumentException'
+CompileException = require '../../lib/Exceptions/CompileException'
 SyntaxException = require '../../lib/Exceptions/SyntaxException'
 
 dir = path.resolve(__dirname + '/../data')
@@ -99,7 +100,7 @@ describe 'Compiler', ->
 
 			it 'should return error in ts if path is not defined', (done) ->
 				Compiler.compile('ts', loadFile('ts/simple.ts')).fail( (err) ->
-					expect(err).to.be.an.instanceof(InvalidArgumentException)
+					expect(err).to.be.an.instanceof(CompileException)
 					expect(err.message).to.be.equal('You have to set path for compiling typescript.')
 					done()
 				).done()
