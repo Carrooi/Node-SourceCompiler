@@ -7,7 +7,7 @@ class Helpers
 
 	@minify:
 		js: (data) -> return uglify.minify(data, fromString: true).code
-		cleanCss: (data) -> return cleanCss.process(data)
+		css: (data) -> return cleanCss.process(data)
 		html: (data) ->
 			data = htmlMinifier.minify(data,
 				removeComments: true

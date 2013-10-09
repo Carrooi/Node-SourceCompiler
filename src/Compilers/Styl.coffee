@@ -12,7 +12,7 @@ class Styl extends Compiler
 	isCachableWithDependencies: -> return true
 
 
-	getMinifier: -> return 'cleanCss'
+	getMinifier: -> return 'css'
 
 
 	parse: (data, options = {}) ->
