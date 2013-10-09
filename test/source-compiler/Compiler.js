@@ -19,12 +19,12 @@
   };
 
   describe('Compiler', function() {
-    describe('#isSupported()', function() {
+    describe('#hasCompiler()', function() {
       it('should return true', function() {
-        return expect(Compiler.isSupported('less')).to.be["true"];
+        return expect(Compiler.hasCompiler('less')).to.be["true"];
       });
       return it('should return false', function() {
-        return expect(Compiler.isSupported('jpg')).to.be["false"];
+        return expect(Compiler.hasCompiler('jpg')).to.be["false"];
       });
     });
     describe('#getType()', function() {

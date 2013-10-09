@@ -10,12 +10,12 @@ loadFile = (_path) -> return fs.readFileSync(dir + '/' + _path, encoding: 'utf8'
 
 describe 'Compiler', ->
 
-	describe '#isSupported()', ->
+	describe '#hasCompiler()', ->
 		it 'should return true', ->
-			expect(Compiler.isSupported('less')).to.be.true
+			expect(Compiler.hasCompiler('less')).to.be.true
 
 		it 'should return false', ->
-			expect(Compiler.isSupported('jpg')).to.be.false
+			expect(Compiler.hasCompiler('jpg')).to.be.false
 
 	describe '#getType()', ->
 		it 'should return type of css framework from file', ->
