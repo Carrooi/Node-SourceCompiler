@@ -330,7 +330,7 @@
         });
         it('should return error if in styl are imports and path is not defined', function(done) {
           return Compiler.compile('styl', loadFile('styl/import.styl')).fail(function(err) {
-            expect(err).to.be.an["instanceof"](SyntaxException);
+            expect(err).to.be.an["instanceof"](CompileException);
             expect(err.message).to.be.equal('failed to locate @import file simple.styl');
             expect(err.filename).to.be["null"];
             expect(err.line).to.be.equal(1);

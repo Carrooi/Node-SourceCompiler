@@ -4,6 +4,7 @@ path = require 'path'
 
 Compiler = require './Compiler'
 SyntaxException = require '../Exceptions/SyntaxException'
+CompileException = require '../Exceptions/CompileException'
 
 class Styl extends Compiler
 
@@ -38,7 +39,11 @@ class Styl extends Compiler
 		line = data[0].match(/\:(\d+)$/)[1]
 		message = data[data.length - 2]
 
-		e = new SyntaxException(message)
+		if message.match(/^failed\sto\slocate\s@import\sfile/)
+			e = new CompileException(message)
+		else
+			e = new SyntaxException(message)
+
 		e.filename = _path
 		e.line = parseInt(line)
 		e.column = null
