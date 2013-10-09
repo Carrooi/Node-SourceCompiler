@@ -41,7 +41,6 @@ class Scss extends Compiler
 
 		e.filename = _path
 		e.line = parseInt(data[1])
-		e.column = null
 
 		return e
 

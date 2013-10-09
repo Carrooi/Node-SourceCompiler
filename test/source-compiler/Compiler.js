@@ -248,7 +248,6 @@
             expect(err.message).to.have.string('invalid selector');
             expect(err.filename).to.be["null"];
             expect(err.line).to.be.equal(1);
-            expect(err.column).to.be["null"];
             return done();
           }).done();
         });
@@ -260,7 +259,6 @@
             expect(err.message).to.have.string('invalid selector');
             expect(err.filename).to.be.equal(dir + '/scss/error.scss');
             expect(err.line).to.be.equal(1);
-            expect(err.column).to.be["null"];
             return done();
           }).done();
         });
@@ -304,7 +302,6 @@
             expect(err.message).to.have.string('expected "}"');
             expect(err.filename).to.be["null"];
             expect(err.line).to.be.equal(1);
-            expect(err.column).to.be["null"];
             return done();
           }).done();
         });
@@ -316,7 +313,6 @@
             expect(err.message).to.have.string('expected "}"');
             expect(err.filename).to.be.equal(dir + '/styl/error.styl');
             expect(err.line).to.be.equal(1);
-            expect(err.column).to.be["null"];
             return done();
           }).done();
         });
@@ -334,7 +330,6 @@
             expect(err.message).to.be.equal('failed to locate @import file simple.styl');
             expect(err.filename).to.be["null"];
             expect(err.line).to.be.equal(1);
-            expect(err.column).to.be["null"];
             return done();
           }).done();
         });
@@ -474,7 +469,6 @@
             expect(err.message).to.have.string('invalid selector');
             expect(err.filename).to.be.equal(dir + '/scss/error.scss');
             expect(err.line).to.be.equal(1);
-            expect(err.column).to.be["null"];
             return done();
           }).done();
         });

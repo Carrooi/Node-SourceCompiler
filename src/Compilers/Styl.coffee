@@ -46,7 +46,6 @@ class Styl extends Compiler
 
 		e.filename = _path
 		e.line = parseInt(line)
-		e.column = null
 
 		return e
 
