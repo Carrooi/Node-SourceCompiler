@@ -4,6 +4,7 @@ sass = require 'node-sass'
 
 Compiler = require './Compiler'
 SyntaxException = require '../Exceptions/SyntaxException'
+CompileException = require '../Exceptions/CompileException'
 
 class Scss extends Compiler
 
@@ -33,7 +34,11 @@ class Scss extends Compiler
 	parseError: (error, _path) ->
 		data = error.match(/^source\sstring\:(\d+)\:\serror\:\s(.*)/)
 
-		e = new SyntaxException(data[2])
+		if data[2].match(/^file\sto\simport\snot\sfound\sor\sunreadable/)
+			e = new CompileException(data[2])
+		else
+			e = new SyntaxException(data[2])
+
 		e.filename = _path
 		e.line = parseInt(data[1])
 		e.column = null

@@ -274,7 +274,7 @@
         });
         it('should return error if in scss are imports and path is not defined', function(done) {
           return Compiler.compile('scss', loadFile('scss/import.scss')).fail(function(err) {
-            expect(err).to.be.an["instanceof"](SyntaxException);
+            expect(err).to.be.an["instanceof"](CompileException);
             expect(err.message).to.have.string('file to import not found or unreadable');
             expect(err.filename).to.be["null"];
             expect(err.line).to.be.equal(1);
