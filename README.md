@@ -193,6 +193,12 @@ Compiler.compileFile('/var/path/to/the/original/file.less', {dependents: ['/var/
 });
 ```
 
+## Tests
+
+```
+$ npm test
+```
+
 ## Changelog
 
 * 2.0.0
