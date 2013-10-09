@@ -8,6 +8,7 @@ http = require 'http'
 https = require 'https'
 
 BaseCompiler = require './Compilers/Compiler'
+Helpers = require './Helpers'
 HttpGetException = require './Exceptions/HttpGetException'
 InvalidArgumentException = require './Exceptions/InvalidArgumentException'
 
@@ -154,7 +155,7 @@ class Compiler
 		@getCompiler(type).parse(data, options).then( (data) =>
 			if options.minify
 				minifier = @getCompiler(type).getMinifier(options)
-				data = BaseCompiler.minify[minifier](data)
+				data = Helpers.minify[minifier](data)
 
 			deferred.resolve(data)
 		, (err) ->

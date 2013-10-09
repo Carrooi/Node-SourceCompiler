@@ -2,6 +2,7 @@ Q = require 'q'
 eco = require 'eco'
 
 Compiler = require './Compiler'
+Helpers = require '../Helpers'
 InvalidArgumentException = require '../Exceptions/InvalidArgumentException'
 
 class Eco extends Compiler
@@ -22,11 +23,11 @@ class Eco extends Compiler
 			data = data.replace(/\n/g, '\n  ')
 			data = '(function() {\n  return ' + data + '\n}).call(this);'
 			if options.jquerify == true
-				data = Compiler.jquerify.precompiled(data)
+				data = Helpers.jquerify.precompiled(data)
 		else
 			data = eco.render(data, options.data)
 			if options.jquerify == true
-				data = Compiler.jquerify.compiled(data)
+				data = Helpers.jquerify.compiled(data)
 
 		deferred.resolve(data)
 
