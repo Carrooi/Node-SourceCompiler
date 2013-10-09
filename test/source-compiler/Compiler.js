@@ -64,7 +64,7 @@
           return Compiler.compile('coffee', loadFile('coffee/simple.coffee'), {
             minify: true
           }).then(function(data) {
-            expect(data).to.be.equal('!function(){var l;l="hello"}.call(this);');
+            expect(data).to.be.equal('(function(){var l;l="hello"}).call(this);');
             return done();
           }).done();
         });
@@ -80,7 +80,7 @@
           return Compiler.compile('json', loadFile('json/simple.json'), {
             minify: true
           }).then(function(data) {
-            expect(data).to.be.equal('!function(){return{message:"hello"}}.call(this);');
+            expect(data).to.be.equal('(function(){return{message:"hello"}}).call(this);');
             return done();
           }).done();
         });
@@ -98,7 +98,7 @@
           return Compiler.compile('ts', loadFile('ts/simple.ts'), {
             path: dir + '/ts/simple.ts'
           }).then(function(data) {
-            expect(data).to.be.equal("var message = 'hello';\r\n");
+            expect(data).to.be.equal("var message = 'hello';\n");
             return done();
           }).done();
         });
@@ -127,6 +127,12 @@
         });
         it('should return error in less', function(done) {
           return Compiler.compile('less', loadFile('less/error.less')).fail(function(err) {
+            expect(err).to.be.an["instanceof"](Error);
+            return done();
+          }).done();
+        });
+        it('should return another error', function(done) {
+          return Compiler.compile('less', 'body {color: @red;}').fail(function(err) {
             expect(err).to.be.an["instanceof"](Error);
             return done();
           }).done();
@@ -280,7 +286,7 @@
               message: 'hello'
             }
           }).then(function(data) {
-            expect(data).to.be.equal('!function(){$("<span>hello</span><span>Bye</span>")}.call(this);');
+            expect(data).to.be.equal('(function(){$("<span>hello</span><span>Bye</span>")}).call(this);');
             return done();
           }).done();
         });
@@ -338,7 +344,7 @@
       describe('ts', function() {
         return it('should return compiled ts file from compileFile method', function(done) {
           return Compiler.compileFile(dir + '/ts/simple.ts').then(function(data) {
-            expect(data).to.be.equal("var message = 'hello';\r\n");
+            expect(data).to.be.equal("var message = 'hello';\n");
             return done();
           }).done();
         });
@@ -358,9 +364,15 @@
         });
       });
       describe('scss', function() {
-        return it('should return compiled scss file from compileFile method', function(done) {
+        it('should return compiled scss file from compileFile method', function(done) {
           return Compiler.compileFile(dir + '/scss/simple.scss').then(function(data) {
             expect(data).to.be.equal('body {\n  color: red; }\n');
+            return done();
+          }).done();
+        });
+        return it('should return error for bad file', function(done) {
+          return Compiler.compileFile(dir + '/scss/error.scss').fail(function(err) {
+            expect(err).to.be.an["instanceof"](Error);
             return done();
           }).done();
         });

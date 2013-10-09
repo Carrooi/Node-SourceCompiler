@@ -49,7 +49,7 @@ describe 'Compiler', ->
 
 			it 'should return minified coffee file', (done) ->
 				Compiler.compile('coffee', loadFile('coffee/simple.coffee'), {minify: true}).then( (data) ->
-					expect(data).to.be.equal('!function(){var l;l="hello"}.call(this);')
+					expect(data).to.be.equal('(function(){var l;l="hello"}).call(this);')
 					done()
 				).done()
 
@@ -62,7 +62,7 @@ describe 'Compiler', ->
 
 			it 'should return minified json file', (done) ->
 				Compiler.compile('json', loadFile('json/simple.json'), {minify: true}).then( (data) ->
-					expect(data).to.be.equal('!function(){return{message:"hello"}}.call(this);')
+					expect(data).to.be.equal('(function(){return{message:"hello"}}).call(this);')
 					done()
 				).done()
 
@@ -76,7 +76,7 @@ describe 'Compiler', ->
 		describe 'ts', ->
 			it 'should return compiled ts file', (done) ->
 				Compiler.compile('ts', loadFile('ts/simple.ts'), {path: dir + '/ts/simple.ts'}).then( (data) ->
-					expect(data).to.be.equal("var message = 'hello';\r\n")
+					expect(data).to.be.equal("var message = 'hello';\n")
 					done()
 				).done()
 
@@ -101,6 +101,12 @@ describe 'Compiler', ->
 
 			it 'should return error in less', (done) ->
 				Compiler.compile('less', loadFile('less/error.less')).fail( (err) ->
+					expect(err).to.be.an.instanceof(Error)
+					done()
+				).done()
+
+			it 'should return another error', (done) ->
+				Compiler.compile('less', 'body {color: @red;}').fail( (err) ->
 					expect(err).to.be.an.instanceof(Error)
 					done()
 				).done()
@@ -218,7 +224,7 @@ describe 'Compiler', ->
 
 			it 'should return compiled, minified and jquerified eco file', (done) ->
 				Compiler.compile('eco', loadFile('eco/simple.eco'), {jquerify: true, minify: true, data: {message: 'hello'}}).then( (data) ->
-					expect(data).to.be.equal('!function(){$("<span>hello</span><span>Bye</span>")}.call(this);')
+					expect(data).to.be.equal('(function(){$("<span>hello</span><span>Bye</span>")}).call(this);')
 					done()
 				).done()
 
@@ -265,7 +271,7 @@ describe 'Compiler', ->
 		describe 'ts', ->
 			it 'should return compiled ts file from compileFile method', (done) ->
 				Compiler.compileFile(dir + '/ts/simple.ts').then( (data) ->
-					expect(data).to.be.equal("var message = 'hello';\r\n")
+					expect(data).to.be.equal("var message = 'hello';\n")
 					done()
 				).done()
 
@@ -286,6 +292,12 @@ describe 'Compiler', ->
 			it 'should return compiled scss file from compileFile method', (done) ->
 				Compiler.compileFile(dir + '/scss/simple.scss').then( (data) ->
 					expect(data).to.be.equal('body {\n  color: red; }\n')
+					done()
+				).done()
+
+			it 'should return error for bad file', (done) ->
+				Compiler.compileFile(dir + '/scss/error.scss').fail( (err) ->
+					expect(err).to.be.an.instanceof(Error)
 					done()
 				).done()
 

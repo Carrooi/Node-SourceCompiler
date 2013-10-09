@@ -231,17 +231,16 @@ class Compiler
 
 		scss: (data, options) =>
 			deferred = Q.defer()
+
 			setup =
 				data: data
+				success: (css) -> deferred.resolve(css)
+				error: (err) => deferred.reject(@_errors.scss(err, options.path))
 
 			if options.path != null
 				setup.includePaths = [path.dirname(options.path)]
 
-			try
-				data = sass.renderSync(setup)
-				deferred.resolve(data)
-			catch err
-				deferred.reject(@_errors.scss(err, options.path))
+			sass.render(setup)
 
 			return deferred.promise
 
@@ -339,7 +338,7 @@ class Compiler
 			return e
 
 		scss: (err, path = null) ->
-			data = err.message.split('\n')[0].match(/^\:(\d+)\:\serror\:\s(.*)/)
+			data = err.match(/^source\sstring\:(\d+)\:\serror\:\s(.*)/)
 			line = data[1]
 			msg = data[2]
 			msg += if path != null then " in #{path}:" else ' on line '

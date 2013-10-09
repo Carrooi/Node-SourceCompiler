@@ -166,9 +166,10 @@ Compiler.compileFile('/var/path/to/the/original/file.less', {dependents: ['/var/
 
 ## Changelog
 
-* 1.3.5
+* 1.4.0
 	+ Better readme
 	+ Added some tests
+	+ Updated dependencies
 
 * 1.3.4
 	+ Rewritten tests
