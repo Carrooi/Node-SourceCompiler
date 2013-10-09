@@ -3,6 +3,7 @@ fs = require 'fs'
 path = require 'path'
 
 Compiler = require '../../lib/Compiler'
+InvalidArgumentException = require '../../lib/Exceptions/InvalidArgumentException'
 
 dir = path.resolve(__dirname + '/../data')
 
@@ -24,7 +25,7 @@ describe 'Compiler', ->
 	describe '#compile()', ->
 		it 'should return error when framework type is not supported', (done) ->
 			Compiler.compile('jpg', '').fail( (err) ->
-				expect(err).to.be.an.instanceof(Error)
+				expect(err).to.be.an.instanceof(InvalidArgumentException)
 				done()
 			).done()
 
