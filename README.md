@@ -52,7 +52,7 @@ See section `options`
 
 ### Typescript
 
-Every time when you want to use typescript, you will need to set also path, otherwise error will be returns.
+Every time when you want to use typescript, you will need to set also path, otherwise error will be return.
 
 See section `options`
 
@@ -65,6 +65,7 @@ compiler needs to use some workarounds because of this.
 * minify: boolean option, if it is true, then result file will be compressed
 	+ css styles: ([clean-css](https://npmjs.org/package/clean-css))
 	+ js: ([uglify-js](https://npmjs.org/package/uglify-js))
+	+ html: ([html-minifier](https://npmjs.org/package/html-minifier))
 * precompile: some frameworks can just prepare your code for another usage without framework itself (eg. in browser). This options is for templates
 * jquerify: this option is also for templates and it wrap automatically result template into jQuery function
 * data: again for templates. This is an object with your variables passed to templates
@@ -78,10 +79,6 @@ Compiler.compile('less', 'body { color: red; }', {
 	console.log(result);		// output: body {\n  color: red;\n}\n
 });
 ```
-
-## ECO templates
-
-Unfortunately now minifiing is supported only for jquerified templates.
 
 ## Parsing files
 
@@ -105,7 +102,7 @@ Compiler.compileFile('http://my.website.com/some_file.coffee').then(function(res
 
 ## Handling errors
 
-All error messages should be parsed into one type, so you can easily work with them. Errors are [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) instances.
+All error messages should be parsed into one type, so you can easily work with them.
 
 ```
 Compiler.compile('scss', '{',).than(function(result) {
@@ -120,6 +117,38 @@ or just look at the error
 ```
 Compiler.compile('scss', '{',).fail(function(err) {
 	console.log(err);
+});
+```
+
+### List of exceptions
+
+* `Exceptions/CompileException`: Returned on errors while compile time (eg. unknown path for imports in css frameworks)
+* `Exceptions/HttpGetException`: Returned on error while loading file from remote source
+* `Exceptions/InvalidArgumentException`: Now only when type to compile is not supported
+* `Exceptions/SyntaxException`: Returned when there is some syntax error in your file
+
+### Properties of compile and syntax exception
+
+* `filename`: Path to file with error
+* `line`: Number of line where your error is
+* `column`: Number of char position in line with error
+* `lastLine`: Only for coffee-script
+* `lastColumn`: Only for coffee-script
+
+### Example of working with exceptions
+
+```
+var SyntaxException = require('source-compiler/Exceptions/SyntaxException');
+var CompileException = require('source-compiler/Exceptions/CompileException');
+
+Compiler.compileFile('/var/data/path/to/some/file.coffee').fail(function(err) {
+	if (err instanceof SyntaxException) {
+
+	} else if (err instanceof CompileException) {
+
+	} else {
+
+	}
 });
 ```
 
