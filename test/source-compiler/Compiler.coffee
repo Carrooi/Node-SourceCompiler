@@ -313,9 +313,15 @@ describe 'Compiler', ->
 					done()
 				).done()
 
-			it 'should return error if you try to minify clean template', (done) ->
+			it 'shoulr return minified html template', (done) ->
 				Compiler.compile('eco', loadFile('eco/simple.eco'), {minify: true, data: {message: 'hello'}}).then( (data) ->
 					expect(data).to.be.equal('<span>hello</span><span>Bye</span>')
+					done()
+				).done()
+
+			it 'should return precompiled and jquerified eco template', (done) ->
+				Compiler.compile('eco', loadFile('eco/simple.eco'), {precompile: true, jquerify: true}).then( (data) ->
+					expect(data).to.be.a('string')
 					done()
 				).done()
 

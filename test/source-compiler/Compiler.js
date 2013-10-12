@@ -385,7 +385,7 @@
             return done();
           }).done();
         });
-        return it('should return error if you try to minify clean template', function(done) {
+        it('shoulr return minified html template', function(done) {
           return Compiler.compile('eco', loadFile('eco/simple.eco'), {
             minify: true,
             data: {
@@ -393,6 +393,15 @@
             }
           }).then(function(data) {
             expect(data).to.be.equal('<span>hello</span><span>Bye</span>');
+            return done();
+          }).done();
+        });
+        return it('should return precompiled and jquerified eco template', function(done) {
+          return Compiler.compile('eco', loadFile('eco/simple.eco'), {
+            precompile: true,
+            jquerify: true
+          }).then(function(data) {
+            expect(data).to.be.a('string');
             return done();
           }).done();
         });
