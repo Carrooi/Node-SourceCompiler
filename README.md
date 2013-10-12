@@ -201,6 +201,9 @@ $ npm test
 
 ## Changelog
 
+* 2.0.2
+	+ Bug with caching
+
 * 2.0.1
 	+ Syntax error in precompiled and jquerified eco templates
 

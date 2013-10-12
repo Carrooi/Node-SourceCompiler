@@ -15,7 +15,7 @@ InvalidArgumentException = require './Exceptions/InvalidArgumentException'
 class Compiler
 
 
-	CACHE_NAMESPACE = 'source_compiler'
+	CACHE_NAMESPACE: 'source_compiler'
 
 
 	cache: null
