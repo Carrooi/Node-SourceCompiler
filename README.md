@@ -201,6 +201,9 @@ $ npm test
 
 ## Changelog
 
+* 2.0.3
+	+ node-sass module is called on parse (because of their bug [https://github.com/andrew/node-sass/pull/168](167))
+
 * 2.0.2
 	+ Bug with caching
 

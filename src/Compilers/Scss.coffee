@@ -1,6 +1,5 @@
 Q = require 'q'
 path = require 'path'
-sass = require 'node-sass'
 
 Compiler = require './Compiler'
 SyntaxException = require '../Exceptions/SyntaxException'
@@ -26,7 +25,7 @@ class Scss extends Compiler
 		if options.path != null
 			setup.includePaths = [path.dirname(options.path)]
 
-		sass.render(setup)
+		require('node-sass').render(setup)
 
 		return deferred.promise
 
