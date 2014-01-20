@@ -1,7 +1,7 @@
 {
 	"name": "source-compiler",
 	"description": "Compile javascript transcompilers and css frameworks with one API",
-	"version": "2.1.0",
+	"version": "2.1.1",
 	"author": {
 		"name": "David Kudera",
 		"email": "sakren@gmail.com"
@@ -49,6 +49,6 @@
 		"mocha": "~1.17.0"
 	},
 	"scripts": {
-		"test": "mocha ./test/index.js --timeout 3000 --reporter spec"
+		"test": "mocha ./test/index.js --timeout 5000 --reporter spec"
 	}
 }
