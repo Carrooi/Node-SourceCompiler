@@ -1,3 +1,9 @@
+[![NPM version](https://badge.fury.io/js/source-compiler.png)](http://badge.fury.io/js/source-compiler)
+[![Dependency Status](https://gemnasium.com/sakren/node-source-compiler.png)](https://gemnasium.com/sakren/node-source-compiler)
+[![Build Status](https://travis-ci.org/sakren/node-source-compiler.png?branch=master)](https://travis-ci.org/sakren/node-source-compiler)
+
+[![Donate](http://b.repl.ca/v1/donate-PayPal-brightgreen.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MU5NJUJN3XWYY)
+
 # Source compiler
 
 This package allows you to simply use some transcompilers with just one API and simple error handling.
@@ -200,6 +206,11 @@ $ npm test
 ```
 
 ## Changelog
+
+* 2.1.0
+	+ Updated all dependencies (eq. new version of typescript, less, etc.)
+	+ Added badges
+	+ Optimized tests (mocha does not need to be installed globally)
 
 * 2.0.3
 	+ node-sass module is called on parse (because of their bug [https://github.com/andrew/node-sass/pull/168](167))

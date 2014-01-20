@@ -1,7 +1,7 @@
 {
 	"name": "source-compiler",
 	"description": "Compile javascript transcompilers and css frameworks with one API",
-	"version": "2.0.3",
+	"version": "2.1.0",
 	"author": {
 		"name": "David Kudera",
 		"email": "sakren@gmail.com"
@@ -31,23 +31,24 @@
 	},
 	"main": "./lib/Compiler.js",
 	"dependencies": {
-		"q": "~0.9.7",
+		"q": "~1.0.0",
 		"coffee-script": "~1.6.3",
-		"typescript": "~0.9.1-1",
-		"less": "~1.4.2",
-		"stylus": "~0.38.0",
-		"node-sass": "~0.6.7",
+		"typescript": "~0.9.5",
+		"less": "~1.6.1",
+		"stylus": "~0.42.1",
+		"node-sass": "~0.8.1",
 		"eco": "~1.1.0-rc-3",
-		"uglify-js": "~2.4.0",
-		"clean-css": "~1.1.3",
-		"cache-storage": "~1.3.0",
-		"fs-finder": "~1.7.4",
+		"uglify-js": "~2.4.10",
+		"clean-css": "~2.0.7",
+		"cache-storage": "~2.0.0",
+		"fs-finder": "~1.8.0",
 		"html-minifier": "~0.5.4"
 	},
 	"devDependencies": {
-		"chai": "~1.8.0"
+		"chai": "~1.8.1",
+		"mocha": "~1.17.0"
 	},
 	"scripts": {
-		"test": "cd ./test; mocha ./source-compiler/index.js --timeout 3000 --reporter spec;"
+		"test": "mocha ./test/index.js --timeout 3000 --reporter spec"
 	}
 }
