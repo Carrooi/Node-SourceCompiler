@@ -207,6 +207,9 @@ $ npm test
 
 ## Changelog
 
+* 2.1.1
+	+ Just increased timeout for tests (because of typescript)
+
 * 2.1.0
 	+ Updated all dependencies (eq. new version of typescript, less, etc.)
 	+ Added badges
