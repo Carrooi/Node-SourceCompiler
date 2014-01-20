@@ -178,7 +178,7 @@
             expect(err.message).to.be.equal('missing closing `}`');
             expect(err.filename).to.be["null"];
             expect(err.line).to.be.equal(1);
-            expect(err.column).to.be.equal(0);
+            expect(err.column).to.be.equal(1);
             expect(err.type).to.be.equal('Parse');
             return done();
           }).done();
@@ -202,7 +202,7 @@
             expect(err.message).to.be.equal('missing closing `}`');
             expect(err.filename).to.be.equal(dir + '/less/error.less');
             expect(err.line).to.be.equal(1);
-            expect(err.column).to.be.equal(0);
+            expect(err.column).to.be.equal(1);
             expect(err.type).to.be.equal('Parse');
             return done();
           }).done();
@@ -459,7 +459,7 @@
             expect(err.message).to.be.equal('missing closing `}`');
             expect(err.filename).to.be.equal(dir + '/less/error.less');
             expect(err.line).to.be.equal(1);
-            expect(err.column).to.be.equal(0);
+            expect(err.column).to.be.equal(1);
             expect(err.type).to.be.equal('Parse');
             return done();
           }).done();

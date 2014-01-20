@@ -18,9 +18,9 @@ class Less extends Compiler
 	parse: (data, options = {}) ->
 		setup =
 			optimization: 1
-			rootpath: ''
 			relativeUrls: false
 			strictImports: false
+			paths: '.'
 
 		if options.path != null
 			setup.paths = [path.dirname(options.path)]
