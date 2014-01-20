@@ -45,9 +45,10 @@
 		"html-minifier": "~0.5.4"
 	},
 	"devDependencies": {
-		"chai": "~1.8.0"
+		"chai": "~1.8.0",
+		"mocha": "~1.17.0"
 	},
 	"scripts": {
-		"test": "cd ./test; mocha ./source-compiler/index.js --timeout 3000 --reporter spec;"
+		"test": "mocha ./test/index.js --timeout 3000 --reporter spec"
 	}
 }
