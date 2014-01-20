@@ -207,6 +207,11 @@ $ npm test
 
 ## Changelog
 
+* 2.1.0
+	+ Updated all dependencies (eq. new version of typescript, less, etc.)
+	+ Added badges
+	+ Optimized tests (mocha does not need to be installed globally)
+
 * 2.0.3
 	+ node-sass module is called on parse (because of their bug [https://github.com/andrew/node-sass/pull/168](167))
 
