@@ -49,6 +49,6 @@
 		"mocha": "~1.17.0"
 	},
 	"scripts": {
-		"test": "mocha ./test/source-compiler/index.js --timeout 3000 --reporter spec"
+		"test": "mocha ./test/index.js --timeout 3000 --reporter spec"
 	}
 }
