@@ -1,3 +1,9 @@
+[![NPM version](https://badge.fury.io/js/source-compiler.png)](http://badge.fury.io/js/source-compiler)
+[![Dependency Status](https://gemnasium.com/sakren/node-source-compiler.png)](https://gemnasium.com/sakren/node-source-compiler)
+[![Build Status](https://travis-ci.org/sakren/node-source-compiler.png?branch=master)](https://travis-ci.org/sakren/node-source-compiler)
+
+[![Donate](http://b.repl.ca/v1/donate-PayPal-brightgreen.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MU5NJUJN3XWYY)
+
 # Source compiler
 
 This package allows you to simply use some transcompilers with just one API and simple error handling.
