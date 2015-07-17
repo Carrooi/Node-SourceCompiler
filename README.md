@@ -1,8 +1,8 @@
-[![NPM version](https://badge.fury.io/js/source-compiler.png)](http://badge.fury.io/js/source-compiler)
-[![Dependency Status](https://gemnasium.com/sakren/node-source-compiler.png)](https://gemnasium.com/sakren/node-source-compiler)
-[![Build Status](https://travis-ci.org/sakren/node-source-compiler.png?branch=master)](https://travis-ci.org/sakren/node-source-compiler)
+[![NPM version](https://img.shields.io/npm/v/source-compiler.svg?style=flat-square)](http://badge.fury.io/js/source-compiler)
+[![Dependency Status](https://img.shields.io/gemnasium/Carrooi/Node-SourceCompiler.svg?style=flat-square)](https://gemnasium.com/Carrooi/Node-SourceCompiler)
+[![Build Status](https://img.shields.io/travis/Carrooi/Node-SourceCompiler.svg?style=flat-square)](https://travis-ci.org/Carrooi/Node-SourceCompiler)
 
-[![Donate](http://b.repl.ca/v1/donate-PayPal-brightgreen.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MU5NJUJN3XWYY)
+[![Donate](https://img.shields.io/badge/donate-PayPal-brightgreen.svg?style=flat-square)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MU5NJUJN3XWYY)
 
 # Source compiler
 
@@ -206,6 +206,10 @@ $ npm test
 ```
 
 ## Changelog
+
+* 2.1.2
+	+ Move under Carrooi organization
+	+ Abandon package
 
 * 2.1.1
 	+ Just increased timeout for tests (because of typescript)
