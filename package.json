@@ -1,10 +1,10 @@
 {
 	"name": "source-compiler",
-	"description": "Compile javascript transcompilers and css frameworks with one API",
-	"version": "2.1.1",
+	"description": "[ABANDONED] Compile javascript transcompilers and css frameworks with one API",
+	"version": "2.1.2",
 	"author": {
 		"name": "David Kudera",
-		"email": "sakren@gmail.com"
+		"email": "kudera.d@gmail.com"
 	},
 	"keywords": [
 		"transcompiler",
@@ -23,7 +23,7 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "git@github.com:sakren/node-source-compiler.git"
+		"url": "git@github.com:Carrooi/Node-SourceCompiler.git"
 	},
 	"license": "MIT",
 	"engines": {
@@ -52,3 +52,4 @@
 		"test": "mocha ./test/index.js --timeout 5000 --reporter spec"
 	}
 }
+
